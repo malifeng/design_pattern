@@ -1,16 +1,23 @@
 package com.mlf.tank;
 
+import com.mlf.creational.prototype.abstractprototype.B;
+
 import java.awt.*;
 
 public class Tank {
     private int x, y ;
     private Dir dir = Dir.DOWN;
     private static final int SPEED = 10;
+    private boolean moving  = false;
 
-    public Tank(int x, int y, Dir dir) {
+    private TackFrame tf = null;
+
+
+    public Tank(int x, int y, Dir dir,TackFrame tf) {
         this.x = x;
         this.y = y;
         this.dir = dir;
+        this.tf = tf;
     }
 
     public void setX(int x) {
@@ -43,6 +50,18 @@ public class Tank {
 
     public void paint(Graphics g) {
         g.fillRect(x, y, 50, 50);
+        move();
+
+    }
+
+    public void setMoving(boolean moving) {
+        this.moving = moving;
+    }
+
+    private void move() {
+        if(!moving){
+           return;
+        }
         switch (dir) {
             case LEFT:
                 x -= SPEED;
@@ -59,5 +78,10 @@ public class Tank {
             default:
                 break;
         }
+    }
+
+
+    public void fire() {
+        tf.bullets.add(new Bullet(10, this.x, this.y, this.dir,this.tf)) ;
     }
 }

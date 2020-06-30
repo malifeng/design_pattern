@@ -5,13 +5,18 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TackFrame extends Frame {
 
-    Tank myTank = new Tank(100, 200, Dir.DOWN);
+    static final int TF_WIDTH = 600;
+    static final int TF_HEIGHT = 800;
+    Tank myTank = new Tank(100, 200, Dir.DOWN, this);
+    List<Bullet> bullets = new ArrayList<>();
 
     public TackFrame() throws HeadlessException {
-        setSize(600, 800);
+        setSize(TackFrame.TF_WIDTH, TackFrame.TF_HEIGHT);
         setResizable(false);
         setTitle("tank war");
         setVisible(true);
@@ -30,6 +35,11 @@ public class TackFrame extends Frame {
     @Override
     public void paint(Graphics g) {
         myTank.paint(g);
+        g.setColor(Color.black);
+        g.drawString("子弹的数量："+ bullets.size(),10,60);
+        for (int i = 0; i < bullets.size() ; i++) {
+            bullets.get(i).paint(g);
+        }
     }
 
 
@@ -80,17 +90,27 @@ public class TackFrame extends Frame {
                 case KeyEvent.VK_DOWN:
                     bD = false;
                     break;
+                case KeyEvent.VK_CONTROL:
+                    myTank.fire();
+                    break;
 
                 default:
                     break;
             }
+            setMainTankDir();
         }
 
         private void setMainTankDir() {
-            if (bL) myTank.setDir( Dir.LEFT);
-            if (bR) myTank.setDir( Dir.RIGHT);
-            if (bU) myTank.setDir( Dir.UP);
-            if (bD)  myTank.setDir( Dir.DOWN);
+            if (!bL && !bU && !bR && !bD) {
+                myTank.setMoving(false);
+            } else {
+                myTank.setMoving(true);
+                if (bL) myTank.setDir(Dir.LEFT);
+                if (bR) myTank.setDir(Dir.RIGHT);
+                if (bU) myTank.setDir(Dir.UP);
+                if (bD) myTank.setDir(Dir.DOWN);
+            }
+
         }
     }
 }
