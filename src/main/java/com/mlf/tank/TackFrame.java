@@ -20,6 +20,7 @@ public class TackFrame extends Frame {
         setResizable(false);
         setTitle("tank war");
         setVisible(true);
+        setBackground(Color.black);
 
 
         this.addKeyListener(new MyKeyListener());
@@ -35,7 +36,7 @@ public class TackFrame extends Frame {
     @Override
     public void paint(Graphics g) {
         myTank.paint(g);
-        g.setColor(Color.black);
+        g.setColor(Color.white);
         g.drawString("子弹的数量："+ bullets.size(),10,60);
         for (int i = 0; i < bullets.size() ; i++) {
             bullets.get(i).paint(g);

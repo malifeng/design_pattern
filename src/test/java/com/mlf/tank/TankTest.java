@@ -14,7 +14,7 @@ public class TankTest {
     @org.junit.Test
     public void setX() {
         try {
-            BufferedImage image = ImageIO.read(new File("/Users/unicareer/IdeaProjects/design_pattern/src/test/java/com/mlf/tank/WechatIMG65.jpeg"));
+            BufferedImage image = ImageIO.read(new File("/Users/unicareer/IdeaProjects/design_pattern/src/main/resources/images/3.gif"));
             InputStream resourceAsStream = TankTest.class.getClassLoader().getResourceAsStream("images/bulletD.gif");
             System.out.println(resourceAsStream);
             BufferedImage image1 = ImageIO.read(resourceAsStream);

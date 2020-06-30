@@ -9,6 +9,7 @@ public class Tank {
     private Dir dir = Dir.DOWN;
     private static final int SPEED = 10;
     private boolean moving  = false;
+    private Image img  = ResourceMgr.tankU;
 
     private TackFrame tf = null;
 
@@ -49,7 +50,8 @@ public class Tank {
     }
 
     public void paint(Graphics g) {
-        g.fillRect(x, y, 50, 50);
+//        g.fillRect(x, y, 50, 50);
+        g.drawImage(img,x,y,null);
         move();
 
     }
@@ -65,15 +67,19 @@ public class Tank {
         switch (dir) {
             case LEFT:
                 x -= SPEED;
+                img = ResourceMgr.tankL ;
                 break;
             case RIGHT:
                 x += SPEED;
+                img = ResourceMgr.tankR ;
                 break;
             case UP:
                 y -= SPEED;
+                img = ResourceMgr.tankU ;
                 break;
             case DOWN:
                 y += SPEED;
+                img = ResourceMgr.tankD ;
                 break;
             default:
                 break;
@@ -82,6 +88,6 @@ public class Tank {
 
 
     public void fire() {
-        tf.bullets.add(new Bullet(10, this.x, this.y, this.dir,this.tf)) ;
+        tf.bullets.add(new Bullet(10, this.x+20, this.y+20, this.dir,this.tf)) ;
     }
 }
