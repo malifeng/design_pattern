@@ -14,6 +14,7 @@ public class TackFrame extends Frame {
     static final int TF_HEIGHT = 800;
     Tank myTank = new Tank(100, 200, Dir.DOWN, this);
     List<Bullet> bullets = new ArrayList<>();
+    List<Tank> tanks = new ArrayList<>();
 
     public TackFrame() throws HeadlessException {
         setSize(TackFrame.TF_WIDTH, TackFrame.TF_HEIGHT);
@@ -37,9 +38,24 @@ public class TackFrame extends Frame {
     public void paint(Graphics g) {
         myTank.paint(g);
         g.setColor(Color.white);
-        g.drawString("子弹的数量："+ bullets.size(),10,60);
-        for (int i = 0; i < bullets.size() ; i++) {
+        g.drawString("子弹的数量：" + bullets.size(), 10, 60);
+        g.drawString("敌人的数量：" + tanks.size(), 10, 70);
+        for (int i = 0; i < bullets.size(); i++) {
             bullets.get(i).paint(g);
+        }
+
+        for (int i = 0; i < tanks.size(); i++) {
+            tanks.get(i).paint(g);
+        }
+
+        for (int i = 0; i < bullets.size(); i++) {
+
+            for (int j = 0; j < tanks.size(); j++) {
+                if(bullets.size()==0){
+                    break;
+                }
+                bullets.get(i).collideWith(tanks.get(j));
+            }
         }
     }
 

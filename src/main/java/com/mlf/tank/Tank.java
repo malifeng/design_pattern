@@ -1,20 +1,33 @@
 package com.mlf.tank;
 
-import com.mlf.creational.prototype.abstractprototype.B;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class Tank {
-    private int x, y ;
+    private int x, y;
     private Dir dir = Dir.DOWN;
     private static final int SPEED = 10;
-    private boolean moving  = false;
-    private Image img  = ResourceMgr.tankU;
+    private boolean moving = false;
+    private boolean living = true;
+    private Image img = ResourceMgr.tankU;
+    private int WIDTH;
+
+    public int getWIDTH() {
+
+        return ((BufferedImage)img).getWidth();
+    }
+
+    public int getHEIGHT() {
+        return ((BufferedImage)img).getHeight();
+    }
+
+    private int HEIGHT;
 
     private TackFrame tf = null;
 
 
-    public Tank(int x, int y, Dir dir,TackFrame tf) {
+    public Tank(int x, int y, Dir dir, TackFrame tf) {
         this.x = x;
         this.y = y;
         this.dir = dir;
@@ -51,7 +64,9 @@ public class Tank {
 
     public void paint(Graphics g) {
 //        g.fillRect(x, y, 50, 50);
-        g.drawImage(img,x,y,null);
+        if(!living) return;
+
+        g.drawImage(img, x, y, null);
         move();
 
     }
@@ -61,25 +76,25 @@ public class Tank {
     }
 
     private void move() {
-        if(!moving){
-           return;
+        if (!moving) {
+            return;
         }
         switch (dir) {
             case LEFT:
                 x -= SPEED;
-                img = ResourceMgr.tankL ;
+                img = ResourceMgr.tankL;
                 break;
             case RIGHT:
                 x += SPEED;
-                img = ResourceMgr.tankR ;
+                img = ResourceMgr.tankR;
                 break;
             case UP:
                 y -= SPEED;
-                img = ResourceMgr.tankU ;
+                img = ResourceMgr.tankU;
                 break;
             case DOWN:
                 y += SPEED;
-                img = ResourceMgr.tankD ;
+                img = ResourceMgr.tankD;
                 break;
             default:
                 break;
@@ -88,6 +103,11 @@ public class Tank {
 
 
     public void fire() {
-        tf.bullets.add(new Bullet(10, this.x+20, this.y+20, this.dir,this.tf)) ;
+        tf.bullets.add(new Bullet(10, this.x + 20, this.y + 20, this.dir, this.tf));
+    }
+
+    public void die() {
+        this.living =false;
+        tf.tanks.remove(this);
     }
 }

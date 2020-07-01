@@ -9,6 +9,7 @@ public class Bullet {
     private static int WIDTH = 10, HEIGHT = 10;
     private TackFrame tf;
     private Image img;
+    private Boolean living = true;
 
     public Bullet(int SPEED, int x, int y, Dir dir, TackFrame tf) {
         this.SPEED = SPEED;
@@ -37,6 +38,9 @@ public class Bullet {
     public void paint(Graphics g) {
 //        g.setColor(Color.RED);
 //        g.fillOval(x,y,WIDTH,HEIGHT);
+        if(!living){
+            return;
+        }
         g.drawImage(img, x, y, null);
         move();
     }
@@ -61,5 +65,19 @@ public class Bullet {
         if (this.x < 0 || this.y < 0 || this.x > TackFrame.TF_WIDTH || this.y > TackFrame.TF_HEIGHT) {
             tf.bullets.remove(this);
         }
+    }
+
+    public void collideWith(Tank tank) {
+        Rectangle rect1 = new Rectangle(this.x, this.y, WIDTH, HEIGHT);
+        Rectangle rect2 = new Rectangle(tank.getX(), tank.getY(), tank.getWIDTH(), tank.getHEIGHT());
+        if(rect1.intersects(rect2)){
+            tank.die();
+            this.die();
+        }
+    }
+
+    private void die() {
+        this.living = false;
+        tf.bullets.remove(this);
     }
 }
