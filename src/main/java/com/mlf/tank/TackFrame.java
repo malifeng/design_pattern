@@ -12,7 +12,7 @@ public class TackFrame extends Frame {
 
     static final int TF_WIDTH = 600;
     static final int TF_HEIGHT = 800;
-    Tank myTank = new Tank(100, 200, Dir.DOWN, this);
+    Tank myTank = new Tank(100, 500, Dir.DOWN, this,Group.WHITE);
     List<Bullet> bullets = new ArrayList<>();
     List<Tank> tanks = new ArrayList<>();
 
@@ -53,6 +53,9 @@ public class TackFrame extends Frame {
             for (int j = 0; j < tanks.size(); j++) {
                 if(bullets.size()==0){
                     break;
+                }
+                if(bullets.get(i).getGroup().equals(tanks.get(j).getGroup())){
+                    continue;
                 }
                 bullets.get(i).collideWith(tanks.get(j));
             }

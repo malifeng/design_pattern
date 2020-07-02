@@ -3,15 +3,18 @@ package com.mlf.tank;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 public class Tank {
     private int x, y;
     private Dir dir = Dir.DOWN;
     private static final int SPEED = 10;
-    private boolean moving = false;
+    private boolean moving = true;
     private boolean living = true;
     private Image img = ResourceMgr.tankU;
     private int WIDTH;
+    private Random random = new Random();
+    private Group group ;
 
     public int getWIDTH() {
 
@@ -27,11 +30,12 @@ public class Tank {
     private TackFrame tf = null;
 
 
-    public Tank(int x, int y, Dir dir, TackFrame tf) {
+    public Tank(int x, int y, Dir dir, TackFrame tf,Group group) {
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.tf = tf;
+        this.group = group;
     }
 
     public void setX(int x) {
@@ -99,11 +103,17 @@ public class Tank {
             default:
                 break;
         }
+
+        if(random.nextInt(10)>8) this.fire();
     }
 
 
+    public Group getGroup() {
+        return group;
+    }
+
     public void fire() {
-        tf.bullets.add(new Bullet(10, this.x + 20, this.y + 20, this.dir, this.tf));
+        tf.bullets.add(new Bullet(10, this.x + 20, this.y + 20, this.dir, this.tf,this.group));
     }
 
     public void die() {

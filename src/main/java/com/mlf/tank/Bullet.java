@@ -10,13 +10,19 @@ public class Bullet {
     private TackFrame tf;
     private Image img;
     private Boolean living = true;
+    private Group group ;
 
-    public Bullet(int SPEED, int x, int y, Dir dir, TackFrame tf) {
+    public Group getGroup() {
+        return group;
+    }
+
+    public Bullet(int SPEED, int x, int y, Dir dir, TackFrame tf, Group group) {
         this.SPEED = SPEED;
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.tf = tf;
+        this.group = group;
         switch (dir) {
             case LEFT:
                 this.img = ResourceMgr.bulletL;
