@@ -69,7 +69,7 @@ public class TackFrame extends Frame {
 //            }
 
             for (int j = 0; j < tanks.size(); j++) {
-                if (bullets.size() == 0) {
+                if (bullets.size() == 0 || j >= tanks.size()) {
                     break;
                 }
 
