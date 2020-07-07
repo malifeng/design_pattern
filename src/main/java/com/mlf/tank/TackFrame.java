@@ -15,6 +15,8 @@ public class TackFrame extends Frame {
     Tank myTank = new Tank(100, 500, Dir.DOWN, this,Group.WHITE);
     List<Bullet> bullets = new ArrayList<>();
     List<Tank> tanks = new ArrayList<>();
+    Explode e = new Explode(100, 100, this);
+    List<Explode> explodes = new ArrayList<>();
 
     public TackFrame() throws HeadlessException {
         setSize(TackFrame.TF_WIDTH, TackFrame.TF_HEIGHT);
@@ -34,9 +36,15 @@ public class TackFrame extends Frame {
         });
     }
 
+    public List<Explode> getExplodes() {
+        return explodes;
+    }
+
     @Override
     public void paint(Graphics g) {
-        myTank.paint(g);
+        if(myTank!=null){
+            myTank.paint(g);
+        }
         g.setColor(Color.white);
         g.drawString("子弹的数量：" + bullets.size(), 10, 60);
         g.drawString("敌人的数量：" + tanks.size(), 10, 70);
@@ -48,18 +56,27 @@ public class TackFrame extends Frame {
             tanks.get(i).paint(g);
         }
 
+        for (int i = 0; i < explodes.size(); i++) {
+            explodes.get(i).paint(g);
+        }
+
         for (int i = 0; i < bullets.size(); i++) {
+            if (bullets.size() == 0) {
+                break;
+            }
+//            if(myTank!=null){
+//                bullets.get(i).collideWith(myTank);
+//            }
 
             for (int j = 0; j < tanks.size(); j++) {
-                if(bullets.size()==0){
+                if (bullets.size() == 0) {
                     break;
                 }
-                if(bullets.get(i).getGroup().equals(tanks.get(j).getGroup())){
-                    continue;
-                }
+
                 bullets.get(i).collideWith(tanks.get(j));
             }
         }
+
     }
 
 

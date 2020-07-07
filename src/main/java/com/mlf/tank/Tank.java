@@ -14,15 +14,16 @@ public class Tank {
     private Image img = ResourceMgr.tankU;
     private int WIDTH;
     private Random random = new Random();
-    private Group group ;
+    private Group group;
+    public Rectangle rectangle = new Rectangle();
 
     public int getWIDTH() {
 
-        return ((BufferedImage)img).getWidth();
+        return ((BufferedImage) img).getWidth();
     }
 
     public int getHEIGHT() {
-        return ((BufferedImage)img).getHeight();
+        return ((BufferedImage) img).getHeight();
     }
 
     private int HEIGHT;
@@ -30,12 +31,16 @@ public class Tank {
     private TackFrame tf = null;
 
 
-    public Tank(int x, int y, Dir dir, TackFrame tf,Group group) {
+    public Tank(int x, int y, Dir dir, TackFrame tf, Group group) {
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.tf = tf;
         this.group = group;
+        this.rectangle.x = x;
+        this.rectangle.y = y;
+        this.rectangle.width = getWIDTH();
+        this.rectangle.height = getHEIGHT();
     }
 
     public void setX(int x) {
@@ -68,7 +73,7 @@ public class Tank {
 
     public void paint(Graphics g) {
 //        g.fillRect(x, y, 50, 50);
-        if(!living) return;
+        if (!living) return;
 
         g.drawImage(img, x, y, null);
         move();
@@ -104,7 +109,13 @@ public class Tank {
                 break;
         }
 
-        if(random.nextInt(10)>8) this.fire();
+        this.boundsCheck();
+
+        this.rectangle.x = x;
+        this.rectangle.y = y;
+
+        if (!this.group.equals(Group.WHITE) && random.nextInt(10) > 8) this.fire();
+        if (!this.group.equals(Group.WHITE) && random.nextInt(100) > 90) this.randomDir();
     }
 
 
@@ -112,12 +123,34 @@ public class Tank {
         return group;
     }
 
+    public void boundsCheck() {
+        if (
+                x >= TackFrame.TF_WIDTH - getWIDTH() ||
+                y >= TackFrame.TF_HEIGHT - getHEIGHT() ||
+                x < 0 ||
+                y < 0
+        ) {
+            this.randomDir();
+        }
+    }
+
     public void fire() {
-        tf.bullets.add(new Bullet(10, this.x + 20, this.y + 20, this.dir, this.tf,this.group));
+        tf.bullets.add(new Bullet(10, this.x + 20, this.y + 20, this.dir, this.tf, this.group));
     }
 
     public void die() {
-        this.living =false;
-        tf.tanks.remove(this);
+        this.living = false;
+        if (this.group == Group.WHITE) {
+            tf.myTank = null;
+        } else {
+            tf.tanks.remove(this);
+        }
+    }
+
+    public void randomDir() {
+        if (group.equals(Group.WHITE)) {
+            return;
+        }
+        this.dir = Dir.values()[random.nextInt(4)];
     }
 }

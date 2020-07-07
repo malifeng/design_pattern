@@ -10,7 +10,8 @@ public class Bullet {
     private TackFrame tf;
     private Image img;
     private Boolean living = true;
-    private Group group ;
+    private Group group;
+    private Rectangle rectangle = new Rectangle();
 
     public Group getGroup() {
         return group;
@@ -23,6 +24,10 @@ public class Bullet {
         this.dir = dir;
         this.tf = tf;
         this.group = group;
+        this.rectangle.x = x;
+        this.rectangle.y = y;
+        this.rectangle.width = WIDTH;
+        this.rectangle.height = HEIGHT;
         switch (dir) {
             case LEFT:
                 this.img = ResourceMgr.bulletL;
@@ -44,7 +49,7 @@ public class Bullet {
     public void paint(Graphics g) {
 //        g.setColor(Color.RED);
 //        g.fillOval(x,y,WIDTH,HEIGHT);
-        if(!living){
+        if (!living) {
             return;
         }
         g.drawImage(img, x, y, null);
@@ -68,17 +73,23 @@ public class Bullet {
             default:
                 break;
         }
+
+        this.rectangle.x = x;
+        this.rectangle.y = y;
+
         if (this.x < 0 || this.y < 0 || this.x > TackFrame.TF_WIDTH || this.y > TackFrame.TF_HEIGHT) {
             tf.bullets.remove(this);
         }
     }
 
     public void collideWith(Tank tank) {
-        Rectangle rect1 = new Rectangle(this.x, this.y, WIDTH, HEIGHT);
-        Rectangle rect2 = new Rectangle(tank.getX(), tank.getY(), tank.getWIDTH(), tank.getHEIGHT());
-        if(rect1.intersects(rect2)){
+        if (this.getGroup().equals(tank.getGroup())) {
+            return;
+        }
+        if (this.rectangle.intersects(tank.rectangle)) {
             tank.die();
             this.die();
+            tf.explodes.add(new Explode(tank.getX(), tank.getY(), tf));
         }
     }
 

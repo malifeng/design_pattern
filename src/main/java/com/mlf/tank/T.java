@@ -8,7 +8,7 @@ public class T {
         TackFrame tackFrame = new TackFrame();
 
         for (int i = 0; i < 5; i++) {
-            tackFrame.tanks.add(new Tank(50 + i* 30,200,Dir.DOWN,tackFrame,Group.WHITE));
+            tackFrame.tanks.add(new Tank(50 + i* 30,200,Dir.DOWN,tackFrame,Group.BLACK));
         }
 
         while (true){
