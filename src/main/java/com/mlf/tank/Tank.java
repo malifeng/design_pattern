@@ -6,15 +6,15 @@ import java.awt.image.BufferedImage;
 import java.util.Random;
 
 public class Tank {
-    private int x, y;
-    private Dir dir = Dir.DOWN;
+    int x, y;
+    Dir dir = Dir.DOWN;
     private static final int SPEED = 10;
     private boolean moving = true;
     private boolean living = true;
     private Image img = ResourceMgr.tankU;
     private int WIDTH;
     private Random random = new Random();
-    private Group group;
+    Group group;
     public Rectangle rectangle = new Rectangle();
 
     public int getWIDTH() {
@@ -28,7 +28,7 @@ public class Tank {
 
     private int HEIGHT;
 
-    private TackFrame tf = null;
+    TackFrame tf = null;
 
 
     public Tank(int x, int y, Dir dir, TackFrame tf, Group group) {
@@ -114,7 +114,7 @@ public class Tank {
         this.rectangle.x = x;
         this.rectangle.y = y;
 
-        if (!this.group.equals(Group.WHITE) && random.nextInt(10) > 8) this.fire();
+        if (!this.group.equals(Group.WHITE) && random.nextInt(10) > 8) this.fire(DefaultFireStrategy.getInstance());
         if (!this.group.equals(Group.WHITE) && random.nextInt(100) > 90) this.randomDir();
     }
 
@@ -126,16 +126,16 @@ public class Tank {
     public void boundsCheck() {
         if (
                 x >= TackFrame.TF_WIDTH - getWIDTH() ||
-                y >= TackFrame.TF_HEIGHT - getHEIGHT() ||
-                x < 0 ||
-                y < 0
+                        y >= TackFrame.TF_HEIGHT - getHEIGHT() ||
+                        x < 0 ||
+                        y < 0
         ) {
             this.randomDir();
         }
     }
 
-    public void fire() {
-        tf.bullets.add(new Bullet(10, this.x + 20, this.y + 20, this.dir, this.tf, this.group));
+    public void fire(FireStrategy fireStrategy) {
+        fireStrategy.fire(this);
     }
 
     public void die() {
