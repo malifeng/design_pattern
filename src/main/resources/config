@@ -3,3 +3,7 @@ tankSpeed=10
 bulletSpeed=10
 gameWidth=1000
 gameHeight=800
+#fireStrategy
+whiteFS=com.mlf.tank.FourStrategy
+blackFS=com.mlf.tank.DefaultFireStrategy
+

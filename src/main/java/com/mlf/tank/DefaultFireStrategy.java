@@ -16,6 +16,6 @@ public class DefaultFireStrategy  implements FireStrategy {
 
     @Override
     public void fire(Tank tank) {
-        tank.tf.bullets.add(new Bullet(10, tank.x + 20, tank.y + 20, tank.dir, tank.tf, tank.group));
+        new Bullet(10, tank.x + 20, tank.y + 20, tank.dir, tank.tf, tank.group);
     }
 }

@@ -5,6 +5,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +14,7 @@ public class TackFrame extends Frame {
 
     static final int TF_WIDTH = 600;
     static final int TF_HEIGHT = 800;
-    Tank myTank = new Tank(100, 500, Dir.DOWN, this,Group.WHITE);
+    Tank myTank = new Tank(100, 500, Dir.DOWN, this, Group.WHITE);
     List<Bullet> bullets = new ArrayList<>();
     List<Tank> tanks = new ArrayList<>();
     Explode e = new Explode(100, 100, this);
@@ -42,7 +44,7 @@ public class TackFrame extends Frame {
 
     @Override
     public void paint(Graphics g) {
-        if(myTank!=null){
+        if (myTank != null) {
             myTank.paint(g);
         }
         g.setColor(Color.white);
@@ -128,7 +130,7 @@ public class TackFrame extends Frame {
                     bD = false;
                     break;
                 case KeyEvent.VK_CONTROL:
-                    myTank.fire(DefaultFireStrategy.getInstance());
+                    myTank.fire((t) -> FireStrategyMgr.getFireStrategy("whiteFS").fire(t));
                     break;
 
                 default:

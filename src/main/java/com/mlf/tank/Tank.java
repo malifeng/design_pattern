@@ -114,7 +114,7 @@ public class Tank {
         this.rectangle.x = x;
         this.rectangle.y = y;
 
-        if (!this.group.equals(Group.WHITE) && random.nextInt(10) > 8) this.fire(DefaultFireStrategy.getInstance());
+        if (!this.group.equals(Group.WHITE) && random.nextInt(10) > 8) this.fire(FireStrategyMgr.getFireStrategy("blackFS"));
         if (!this.group.equals(Group.WHITE) && random.nextInt(100) > 90) this.randomDir();
     }
 
